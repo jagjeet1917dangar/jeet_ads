@@ -7,6 +7,9 @@ import React, { useEffect } from 'react';
 import { User } from 'lucide-react';
 import { useState } from 'react';
 import { UserDetailContext } from '../../context/UserDetailContext';
+import { SidebarProvider } from "@/components/ui/sidebar"
+import AppSidebar from './_components/AppSidebar';
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 function Workspaceprovider({ children }) {
   const createNewUser = useMutation(api.users.CreateNewUser); // ✅ match file name "users.js"
@@ -35,7 +38,12 @@ function Workspaceprovider({ children }) {
 
   return (
     <UserDetailContext.Provider value={{userDetail: setUserDetail }}>
-    <div>{children}</div>
+      <SidebarProvider>
+        <AppSidebar />
+        <div>
+          <SidebarTrigger />
+          {children}</div>
+      </SidebarProvider>  
     </UserDetailContext.Provider>
     );
 }
