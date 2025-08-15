@@ -12,6 +12,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, Settings2Icon, Video, Videotape, WalletCards } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -65,23 +66,27 @@ function AppSidebar() {
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {MenuOptions.map((option, index) => (
-                            <SidebarMenuItem key={index}>
-                                <SidebarMenuButton asChild className="p-5">
-                                    <a
-                                        href={option.path}
-                                        className={`flex items-center gap-4 text-[16px] ${
-                                            path.startsWith(option.path)
-                                                ? 'text-primary bg-blue-100'
-                                                : ''
-                                        }`}
-                                    >
-                                        <option.icon />
-                                        <span>{option.title}</span>
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        {MenuOptions.map((option, index) => {
+                            const isActive =
+                                path === option.path ||
+                                (option.path !== '/workspace' && path.startsWith(option.path));
+
+                            return (
+                                <SidebarMenuItem key={index}>
+                                    <SidebarMenuButton asChild className="p-5">
+                                        <Link
+                                            href={option.path}
+                                            className={`flex items-center gap-4 text-[16px] ${
+                                                isActive ? 'text-primary bg-blue-100' : ''
+                                            }`}
+                                        >
+                                            <option.icon />
+                                            <span>{option.title}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            );
+                        })}
                     </SidebarMenu>
                 </SidebarGroupContent>
                 <SidebarGroup />
